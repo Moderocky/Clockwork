@@ -7,6 +7,31 @@ A logic, collections and data library.
 
 ## Features
 
+### Clock List
+
+A simple list type with some useful features. \
+`ClockList`s are backed by another list, typically an `ArrayList`.
+
+#### Known Type
+
+Unlike regular lists, they have a fixed type defined at creation. This can be obtained with `list.getType()`.
+This type aids in serialisation- all elements conform to it.
+
+The list type is either provided through the constructors (`new ClockList<>(type)` or `new ClockList<>(type, list)`) or
+through compiler magic via an array `new ClockList<>()`.
+
+Knowing the type allows easier array creation `String[] = list.toArray()` and allows this list to be serialised in
+type-specific array formats.
+
+#### Random Element
+
+Clock lists have a simple `list.getRandom()` element getter that can accept a random source.
+
+#### Clone
+
+Clock lists can be cloned, which creates a new list object and a new backing list, allowing elements to be removed from
+the clone without affecting the original.
+
 ### I/O Queue
 
 A single-entry task queue, designed for processing save/load tasks in sequence for environments where there is a risk of
