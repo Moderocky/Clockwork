@@ -1,5 +1,8 @@
 package mx.kenzie.clockwork.collection;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -49,16 +52,19 @@ public class ClockList<Type> implements List<Type> {
     }
 
     @Override
+    @Contract(pure = true)
     public int size() {
         return list.size();
     }
 
     @Override
+    @Contract(pure = true)
     public boolean isEmpty() {
         return list.isEmpty();
     }
 
     @Override
+    @Contract(pure = true)
     public boolean contains(Object o) {
         return list.contains(o);
     }
@@ -69,13 +75,15 @@ public class ClockList<Type> implements List<Type> {
     }
 
     @Override
+    @Contract(pure = true)
     public Type[] toArray() {
         return list.toArray(array);
     }
 
     @Override
-    public <T> T[] toArray(T[] a) {
-        return list.toArray(a);
+    @SafeVarargs
+    public final <T> T @NotNull [] toArray(T @NotNull ... array) {
+        return list.toArray(array);
     }
 
     @Override
