@@ -7,18 +7,26 @@ import java.util.Arrays;
 
 public class IntList extends AbstractList<Integer> {
     protected static final int DEFAULT_SIZE = 16, GROW_SIZE = 16;
-
+    protected final int grow;
     protected int[] array;
     protected int size;
 
-    public IntList(int... array) {
+    public IntList(int[] array) {
         this.array = array;
+        this.grow = GROW_SIZE;
         this.resize(size = array.length);
     }
 
     public IntList() {
         this.array = new int[DEFAULT_SIZE];
         this.size = 0;
+        this.grow = GROW_SIZE;
+    }
+
+    public IntList(int grow) {
+        this.array = new int[grow];
+        this.size = 0;
+        this.grow = grow;
     }
 
     @Override
@@ -35,33 +43,39 @@ public class IntList extends AbstractList<Integer> {
     }
 
     @Override
-    public boolean add(Integer integer) {
-        this.addRaw(size, integer != null ? integer : 0);
+    public boolean add(@NotNull Integer integer) {
+        this.addRaw(integer);
         return true;
     }
 
     public void addRaw(int integer) {
-        if (size >= array.length) this.resize(size);
         this.array[size] = integer;
         this.size++;
+        if (size >= array.length) this.resize(size);
     }
 
     @Override
-    public void add(int index, Integer element) {
-        this.addRaw(index, element == null ? 0 : element);
+    public void add(int index, @NotNull Integer element) {
+        this.addRaw(index, element);
     }
 
     public void addRaw(int index, int element) {
+        if (index == size) {
+            this.addRaw(element);
+            return;
+        }
         final int[] old = this.array;
-        if (index >= array.length) this.resize(index);
+        if (index >= array.length || size == array.length) this.resize(index);
         if (index < old.length) System.arraycopy(old, index, array, index + 1, old.length - index - 1);
         this.array[index] = element;
         this.size++;
     }
 
     protected void resize(int to) {
-        final int size = ((Math.max(to, this.size) / GROW_SIZE) + 1) * GROW_SIZE;
-        this.array = Arrays.copyOf(array, size);
+        final int size = Math.max(to + 1, this.size << 1);
+        final int[] copy = new int[size];
+        System.arraycopy(this.array, 0, this.array, 0, this.array.length);
+        this.array = copy;
     }
 
     @Override

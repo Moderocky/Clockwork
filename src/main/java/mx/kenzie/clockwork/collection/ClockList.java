@@ -6,12 +6,13 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Function;
 
-public class ClockList<Type> implements List<Type> {
+public class ClockList<Type> implements List<Type>, RandomAccess, Cloneable, java.io.Serializable {
 
     protected final Class<Type> type;
     protected final List<Type> list;
-    private final Type[] array;
+    private transient final Type[] array;
 
     @SuppressWarnings("unchecked")
     public ClockList(Class<Type> type, List<Type> list) {
@@ -175,8 +176,25 @@ public class ClockList<Type> implements List<Type> {
         return new ClockList<>(type, list.subList(fromIndex, toIndex));
     }
 
+    @Override
     public ClockList<Type> clone() {
         return new ClockList<>(type, new ArrayList<>(list));
+    }
+
+    public ClockList<Type> clone(Function<List<Type>, List<Type>> backer) {
+        return new ClockList<>(type, backer.apply(list));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ClockList<?> clockList)) return false;
+        return Objects.equals(type, clockList.type) && Objects.equals(list, clockList.list);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, list);
     }
 
 }
