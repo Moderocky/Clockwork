@@ -32,6 +32,18 @@ Clock lists have a simple `list.getRandom()` element getter that can accept a ra
 Clock lists can be cloned, which creates a new list object and a new backing list, allowing elements to be removed from
 the clone without affecting the original.
 
+### Primitive List
+
+Array-based list implementations for primitive types. \
+These are designed to reduce unnecessary memory usage and increase performance
+in cases where number wrapper types are unnecessary.
+
+These have the traditional list implementations that give and take values using wrappers.
+These also have raw methods that use the primitive type directly.
+
+Some semantics deviate from the typical rules of lists - primitive lists (naturally) cannot hold `null` values.
+Some operations are not supported.
+
 ### I/O Queue
 
 A single-entry task queue, designed for processing save/load tasks in sequence for environments where there is a risk of
