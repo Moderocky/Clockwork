@@ -51,6 +51,10 @@ public class ClockList<Type> implements List<Type> {
         return list.get(random.nextInt(list.size()));
     }
 
+    public Type getFirst() {
+        return this.get(0);
+    }
+
     @Override
     @Contract(pure = true)
     public int size() {
