@@ -37,3 +37,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+/src/test/java/mx/kenzie/clockwork/collection/primitive/OurList.java
+/src/test/java/mx/kenzie/clockwork/collection/primitive/ArraysSupport.java
