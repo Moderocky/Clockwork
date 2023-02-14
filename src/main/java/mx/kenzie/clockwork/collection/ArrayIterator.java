@@ -2,12 +2,12 @@ package mx.kenzie.clockwork.collection;
 
 import java.util.Iterator;
 
-class ArrayIterator<Type> implements Iterator<Type> {
+public class ArrayIterator<Type> implements Iterator<Type> {
 
     final Type[] array;
-    private int pointer;
+    protected int pointer;
 
-    ArrayIterator(Type[] array) {
+    public ArrayIterator(Type[] array) {
         this.array = array;
     }
 

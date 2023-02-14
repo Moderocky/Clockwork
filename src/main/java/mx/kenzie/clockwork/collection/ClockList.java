@@ -79,6 +79,10 @@ public class ClockList<Type> implements List<Type>, RandomAccess, Cloneable, jav
         return list.iterator();
     }
 
+    public Iterator<Type> arrayIterator() {
+        return new ArrayIterator<>(this.toArray());
+    }
+
     @Override
     @Contract(pure = true)
     public Type[] toArray() {

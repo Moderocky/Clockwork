@@ -7,6 +7,80 @@ A logic, collections and data library.
 
 ## Features
 
+### Table
+
+A fixed-size two-dimensional grid of typed entries. \
+Elements are stored according to `(x, y)` coordinates in columns and rows.
+
+`Table`s also function as a collection, so the entire element set can be iterated over.
+
+#### Making a Table
+
+A table can be created with a type, width and length.
+
+```java
+final Table<String> table = new Table<>(String.class, 3, 2);
+```
+
+This will create a `3` by `2` table. All entries will start as `null`.
+
+```
+0 2 4
+1 3 5
+```
+
+You can also create a table with an initial array of elements, which are entered by index number.
+
+```java
+final Table<String> table = new Table<>(3, 2, "A", "B", "C");
+```
+
+This will create a `3` by `2` table and enter the initial data.
+If the data set is smaller than the table capacity remaining slots will be `null`.
+If the data set exceeds the table capacity then remaining entries will be ignored.
+
+```
+A C -
+B - -
+```
+
+#### Accessing Data
+
+There are **three** ways to directly access data from a table.
+
+An element can be accessed via its index in the entire table. This indexing reads vertically, one column at a time.
+
+```java
+table.set(2, "hello");
+```
+
+```java
+table.get(14);
+```
+
+An element can be accessed by its grid coordinates. This is the fastest access method. \
+N.B. we go horizontally then vertically.
+
+```java
+table.get(20, 35);
+```
+
+```java
+table.set(22, 41, "hello");
+```
+
+A row or column can be accessed as a unit, and then individual elements can be obtained by index in it.
+
+```java
+table.row(0).get(1);
+```
+
+```java
+table.column(3).set(4, "hello");
+```
+
+Row and column iterators reflect changes on the table itself.
+
 ### Clock List
 
 A simple list type with some useful features. \

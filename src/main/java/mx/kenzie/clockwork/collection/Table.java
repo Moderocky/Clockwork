@@ -30,8 +30,9 @@ public class Table<Type> extends AbstractCollection<Type> implements Collection<
     @SafeVarargs
     public Table(int columns, int rows, Type... elements) {
         this(infer(elements), columns, rows);
-        if (elements.length == 0) return;
-        for (int i = 0; i < elements.length; i++) this.set(i, elements[i]);
+        if (elements.length == 0 || this.size() == 0) return;
+        final int length = Math.min(this.size(), elements.length);
+        for (int i = 0; i < length; i++) this.set(i, elements[i]);
     }
 
     public Table(Table<Type> table) {
@@ -95,7 +96,13 @@ public class Table<Type> extends AbstractCollection<Type> implements Collection<
 
     @Override
     public Iterator<Type> iterator() {
-        return new ArrayIterator<>(this.toArray());
+        return new ArrayIterator<>(this.toArray()) {
+            @Override
+            public void remove() {
+                super.remove();
+                Table.this.set(pointer - 1, null);
+            }
+        };
     }
 
     @Override
