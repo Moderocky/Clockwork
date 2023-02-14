@@ -24,11 +24,9 @@ class RawIntList {
             return;
         }
         final int[] newData = new int[capacity + 1];
-
         System.arraycopy(data, 0, newData, 0, index);
         System.arraycopy(data, index, newData, index + 1, capacity - index);
         newData[index] = value;
-
         data = newData;
         capacity++;
         size++;
@@ -52,7 +50,6 @@ class RawIntList {
     int remove(final int index) {
         final int old = data[index];
         final int[] newData = new int[capacity - 1];
-
         System.arraycopy(data, 0, newData, 0, index);
         System.arraycopy(data, index + 1, newData, index, capacity - index - 1);
         data = newData;

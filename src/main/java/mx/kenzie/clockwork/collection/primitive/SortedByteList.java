@@ -70,12 +70,8 @@ public class SortedByteList extends AbstractList<Byte> {
 
     public byte[] array() {
         final byte[] array = new byte[size()];
-
         int index = 0;
-        for (byte value : this) {
-            array[index++] = value;
-        }
-
+        for (byte value : this) array[index++] = value;
         return array;
     }
 }
