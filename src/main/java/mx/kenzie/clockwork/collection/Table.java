@@ -58,12 +58,25 @@ public class Table<Type> extends AbstractCollection<Type> implements Collection<
     public Type @NotNull [] toArray() {
         final Type[] array = (Type[]) Array.newInstance(type, this.size());
         int index = 0;
-        for (int column = 0; column < columns; column++) {
-            for (int row = 0; row < rows; row++) {
-                array[index++] = matrix[row][column];
-            }
-        }
+        for (int column = 0; column < columns; column++)
+            for (int row = 0; row < rows; row++) array[index++] = matrix[row][column];
         return array;
+    }
+
+    public Set row(int index) {
+        return new Set(true, index);
+    }
+
+    public Set column(int index) {
+        return new Set(false, index);
+    }
+
+    public Type get(int col, int row) {
+        return matrix[row][col];
+    }
+
+    public void set(int col, int row, Type value) {
+        this.matrix[row][col] = value;
     }
 
     public Type get(int index) {
@@ -93,6 +106,97 @@ public class Table<Type> extends AbstractCollection<Type> implements Collection<
     @Override
     protected Table<Type> clone() {
         return new Table<>(this);
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.deepToString(matrix);
+    }
+
+    public class Set extends AbstractList<Type> {
+
+        private final boolean row;
+        private final int index;
+
+        private Set(boolean row, int index) {
+            this.index = index;
+            this.row = row;
+        }
+
+        public boolean isRow() {
+            return row;
+        }
+
+        public boolean isColumn() {
+            return !row;
+        }
+
+        public int getIndex() {
+            return index;
+        }
+
+        @NotNull
+        @Override
+        @SuppressWarnings("unchecked")
+        public Type @NotNull [] toArray() {
+            if (row) return Arrays.copyOf(matrix[index], columns);
+            final Type[] column = (Type[]) Array.newInstance(type, rows);
+            for (int i = 0; i < rows; i++) column[i] = matrix[i][index];
+            return column;
+        }
+
+        @Override
+        public Type get(int index) {
+            if (row) return matrix[this.index][index];
+            else return matrix[index][this.index];
+        }
+
+        @Override
+        public Type set(int index, Type value) {
+            final int x, y;
+            if (row) {
+                x = this.index;
+                y = index;
+            } else {
+                y = this.index;
+                x = index;
+            }
+            final Type old = matrix[x][y];
+            matrix[x][y] = value;
+            return old;
+        }
+
+        @Override
+        public Iterator<Type> iterator() {
+            if (row) return new ArrayIterator<>(matrix[index]);
+            return new ColumnIterator();
+        }
+
+        @Override
+        public int size() {
+            if (row) return columns;
+            else return rows;
+        }
+
+        private class ColumnIterator implements Iterator<Type> {
+            private int pointer;
+
+            @Override
+            public boolean hasNext() {
+                return pointer < rows;
+            }
+
+            @Override
+            public Type next() {
+                return matrix[pointer++][index];
+            }
+
+            @Override
+            public void remove() {
+                matrix[pointer - 1][index] = null;
+            }
+        }
+
     }
 
 }
