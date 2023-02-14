@@ -4,7 +4,8 @@ import org.junit.Test;
 
 import java.util.LinkedList;
 
-public class ClockListTest {
+public class
+ClockListTest {
 
     @Test
     public void basic() {
