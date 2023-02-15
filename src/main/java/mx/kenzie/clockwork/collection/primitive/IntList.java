@@ -15,7 +15,7 @@ public class IntList extends AbstractList<Integer> {
 
     @Override
     public Integer get(final int index) {
-        list.checkBounds(index);
+        this.list.checkBounds(index);
         return list.get(index);
     }
 
@@ -26,30 +26,30 @@ public class IntList extends AbstractList<Integer> {
 
     @Override
     public Integer set(final int index, final Integer element) {
-        list.checkBounds(index);
+        this.list.checkBounds(index);
         return list.set(index, element);
     }
 
     @Override
     public boolean add(Integer integer) {
-        list.add(integer);
+        this.list.add(integer);
         return true;
     }
 
     public boolean add(int value) {
-        list.add(value);
+        this.list.add(value);
         return true;
     }
 
     @Override
     public void add(final int index, final Integer element) {
         if (index > 0) list.checkBounds(index - 1);
-        list.add(index, element);
+        this.list.add(index, element);
     }
 
     @Override
     public Integer remove(final int index) {
-        list.checkBounds(index);
+        this.list.checkBounds(index);
         return list.remove(index);
     }
 

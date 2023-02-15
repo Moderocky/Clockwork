@@ -14,36 +14,32 @@ class RawByteList {
 
     Byte set(final int index, final byte value) {
         final Byte old = data[index];
-        data[index] = value;
+        this.data[index] = value;
         return old;
     }
 
     void add(final int index, final byte value) {
         if (index == size) {
-            add(value);
+            this.add(value);
             return;
         }
-
-        final byte[] newData = new byte[capacity + 1];
-
-        System.arraycopy(data, 0, newData, 0, index);
-        System.arraycopy(data, index, newData, index + 1, capacity - index);
-        newData[index] = value;
-
-        data = newData;
-        capacity++;
-        size++;
+        final byte[] data = new byte[capacity + 1];
+        System.arraycopy(this.data, 0, data, 0, index);
+        System.arraycopy(this.data, index, data, index + 1, capacity - index);
+        data[index] = value;
+        this.data = data;
+        this.capacity++;
+        this.size++;
     }
 
     void add(final byte value) {
         if (capacity == size) {
-            final byte[] newData = new byte[capacity * 2];
-            System.arraycopy(data, 0, newData, 0, capacity);
-            data = newData;
-            capacity *= 2;
+            final byte[] data = new byte[capacity * 2];
+            System.arraycopy(this.data, 0, data, 0, capacity);
+            this.data = data;
+            this.capacity *= 2;
         }
-
-        data[size++] = value;
+        this.data[size++] = value;
     }
 
     Byte get(final int index) {
@@ -52,14 +48,12 @@ class RawByteList {
 
     Byte remove(final int index) {
         final Byte old = data[index];
-        final byte[] newData = new byte[capacity - 1];
-
-        System.arraycopy(data, 0, newData, 0, index);
-        System.arraycopy(data, index + 1, newData, index, capacity - index - 1);
-        data = newData;
-        capacity--;
-        size--;
-
+        final byte[] data = new byte[capacity - 1];
+        System.arraycopy(this.data, 0, data, 0, index);
+        System.arraycopy(this.data, index + 1, data, index, capacity - index - 1);
+        this.data = data;
+        this.capacity--;
+        this.size--;
         return old;
     }
 

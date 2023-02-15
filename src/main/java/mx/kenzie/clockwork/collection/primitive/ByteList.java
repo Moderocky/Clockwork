@@ -15,7 +15,7 @@ public class ByteList extends AbstractList<Byte> {
 
     @Override
     public Byte get(final int index) {
-        list.checkBounds(index);
+        this.list.checkBounds(index);
         return list.get(index);
     }
 
@@ -26,7 +26,7 @@ public class ByteList extends AbstractList<Byte> {
 
     @Override
     public Byte set(final int index, final Byte element) {
-        list.checkBounds(index);
+        this.list.checkBounds(index);
         return list.set(index, element);
     }
 
@@ -34,23 +34,23 @@ public class ByteList extends AbstractList<Byte> {
     @Override
     public void add(final int index, final Byte element) {
         if (index > 0) list.checkBounds(index - 1);
-        list.add(index, element);
+        this.list.add(index, element);
     }
 
     @Override
     public boolean add(Byte element) {
-        list.add(element);
+        this.list.add(element);
         return true;
     }
 
     public boolean add(byte value) {
-        list.add(value);
+        this.list.add(value);
         return true;
     }
 
     @Override
     public Byte remove(final int index) {
-        list.checkBounds(index);
+        this.list.checkBounds(index);
         return list.remove(index);
     }
 

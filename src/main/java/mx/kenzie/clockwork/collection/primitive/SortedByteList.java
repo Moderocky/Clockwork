@@ -12,13 +12,11 @@ public class SortedByteList extends AbstractList<Byte> {
     }
 
     public SortedByteList(int... values) {
-        for (int value : values) {
-            counts[((byte) value) - MIN_VALUE]++;
-        }
+        for (int value : values) counts[((byte) value) - MIN_VALUE]++;
     }
 
     public int count(final int value) {
-        return count((byte) value);
+        return this.count((byte) value);
     }
 
     public int count(final byte value) {
@@ -32,18 +30,17 @@ public class SortedByteList extends AbstractList<Byte> {
             needle += counts[j];
             if (needle > index) return (byte) (j + MIN_VALUE);
         }
-
         return null;
     }
 
     @Override
     public boolean add(final Byte element) {
-        counts[element - MIN_VALUE]++;
+        this.counts[element - MIN_VALUE]++;
         return true;
     }
 
     public boolean add(final int element) {
-        counts[(byte) element - MIN_VALUE]++;
+        this.counts[(byte) element - MIN_VALUE]++;
         return true;
     }
 
@@ -53,7 +50,7 @@ public class SortedByteList extends AbstractList<Byte> {
         for (int j = 0; j < counts.length; j++) {
             needle += counts[j];
             if (needle > index) {
-                counts[j]--;
+                this.counts[j]--;
                 return (byte) (j + MIN_VALUE);
             }
         }

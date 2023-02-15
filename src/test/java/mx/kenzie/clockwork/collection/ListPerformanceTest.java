@@ -1,9 +1,12 @@
 package mx.kenzie.clockwork.collection;
 
-import mx.kenzie.clockwork.collection.primitive.*;
+import mx.kenzie.clockwork.collection.primitive.ByteList;
+import mx.kenzie.clockwork.collection.primitive.IntList;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.LongSummaryStatistics;
 
 public class ListPerformanceTest {
     public static final int SIZE_BYTES = 100_000_000;
@@ -39,11 +42,6 @@ public class ListPerformanceTest {
         ARRAY_LIST_THREAD.setName("ArrayList");
     }
 
-    @Test
-    public void testLists() throws InterruptedException {
-        time(INT_LIST_THREAD, BYTE_LIST_THREAD, ARRAY_LIST_THREAD);
-    }
-
     private static void time(Thread... threads) throws InterruptedException {
         final List<Thread> groups = new ArrayList<>(threads.length);
         for (Thread thread : threads) {
@@ -66,5 +64,10 @@ public class ListPerformanceTest {
         for (Thread group : groups) {
             group.join();
         }
+    }
+
+    @Test
+    public void testLists() throws InterruptedException {
+        time(INT_LIST_THREAD, BYTE_LIST_THREAD, ARRAY_LIST_THREAD);
     }
 }
