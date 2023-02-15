@@ -1,11 +1,15 @@
 package mx.kenzie.clockwork.collection.primitive;
 
+import java.io.Serializable;
 import java.util.AbstractList;
+import java.util.RandomAccess;
 
+import static java.lang.Byte.MAX_VALUE;
 import static java.lang.Byte.MIN_VALUE;
 
-public class SortedByteList extends AbstractList<Byte> {
-    private final int[] counts = new int[Byte.MAX_VALUE - MIN_VALUE + 1];
+public class SortedByteList extends AbstractList<Byte> implements Serializable, RandomAccess {
+    private final int[] counts = new int[MAX_VALUE - MIN_VALUE + 1];
+    private int size;
 
     public SortedByteList() {
 
@@ -13,6 +17,7 @@ public class SortedByteList extends AbstractList<Byte> {
 
     public SortedByteList(int... values) {
         for (int value : values) counts[((byte) value) - MIN_VALUE]++;
+        this.size = values.length;
     }
 
     public int count(final int value) {
@@ -36,11 +41,13 @@ public class SortedByteList extends AbstractList<Byte> {
     @Override
     public boolean add(final Byte element) {
         this.counts[element - MIN_VALUE]++;
+        this.size++;
         return true;
     }
 
     public boolean add(final int element) {
         this.counts[(byte) element - MIN_VALUE]++;
+        this.size++;
         return true;
     }
 
@@ -51,6 +58,7 @@ public class SortedByteList extends AbstractList<Byte> {
             needle += counts[j];
             if (needle > index) {
                 this.counts[j]--;
+                this.size--;
                 return (byte) (j + MIN_VALUE);
             }
         }
@@ -60,15 +68,14 @@ public class SortedByteList extends AbstractList<Byte> {
 
     @Override
     public int size() {
-        int i = 0;
-        for (int j : counts) i += j;
-        return i;
+        return size;
     }
 
     public byte[] array() {
-        final byte[] array = new byte[size()];
+        final byte[] array = new byte[size];
         int index = 0;
         for (byte value : this) array[index++] = value;
         return array;
     }
+
 }
