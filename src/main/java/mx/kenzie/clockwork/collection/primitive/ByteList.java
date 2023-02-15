@@ -59,4 +59,5 @@ public class ByteList extends AbstractList<Byte> implements RandomAccess, Serial
     public byte[] array() {
         return list.array();
     }
+
 }

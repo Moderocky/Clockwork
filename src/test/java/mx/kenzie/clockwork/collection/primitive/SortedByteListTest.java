@@ -63,4 +63,16 @@ public class SortedByteListTest {
         assert list.size() == 8;
     }
 
+    @Test
+    public void clear() {
+        final SortedByteList list = new SortedByteList(2, 0, 1, 0, 2, 0, 1, 1);
+        assert list.size() == 8;
+        assert list.count(0) == 3;
+        assert list.size() == 8;
+        list.clear();
+        assert list.isEmpty();
+        assert list.size() == 0;
+        assert list.count(0) == 0;
+    }
+
 }
