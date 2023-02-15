@@ -2,6 +2,7 @@ package mx.kenzie.clockwork.collection.primitive;
 
 import java.io.Serializable;
 import java.util.AbstractList;
+import java.util.Arrays;
 import java.util.RandomAccess;
 
 import static java.lang.Byte.MAX_VALUE;
@@ -62,8 +63,13 @@ public class SortedByteList extends AbstractList<Byte> implements Serializable, 
                 return (byte) (j + MIN_VALUE);
             }
         }
-
         return null;
+    }
+
+    @Override
+    public void clear() {
+        Arrays.fill(counts, 0);
+        this.size = 0;
     }
 
     @Override
