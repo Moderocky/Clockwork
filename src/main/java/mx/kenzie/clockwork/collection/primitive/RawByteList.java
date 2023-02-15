@@ -1,8 +1,9 @@
 package mx.kenzie.clockwork.collection.primitive;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-class RawByteList {
+class RawByteList implements Serializable {
     private byte[] data;
     private int capacity;
     private int size;
