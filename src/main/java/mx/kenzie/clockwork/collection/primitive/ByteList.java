@@ -1,8 +1,10 @@
 package mx.kenzie.clockwork.collection.primitive;
 
+import java.io.Serializable;
 import java.util.AbstractList;
+import java.util.RandomAccess;
 
-public class ByteList extends AbstractList<Byte> {
+public class ByteList extends AbstractList<Byte> implements RandomAccess, Serializable {
     private final RawByteList list;
 
     public ByteList() {
