@@ -3,12 +3,23 @@ package mx.kenzie.clockwork.collection;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
 public class ClockList<Type> implements List<Type>, RandomAccess, Cloneable, java.io.Serializable {
+
+    private static final Class<?> sync;
+
+    static {
+        try {
+            sync = Class.forName("java.util.Collections$SynchronizedCollection");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Missing core class.", e);
+        }
+    }
 
     protected final Class<Type> type;
     protected final List<Type> list;
@@ -33,6 +44,10 @@ public class ClockList<Type> implements List<Type>, RandomAccess, Cloneable, jav
 
     public ClockList(Class<Type> type) {
         this(type, new ArrayList<>());
+    }
+
+    protected static boolean isSynchronized(Collection<?> collection) {
+        return sync.isInstance(collection);
     }
 
     public Class<Type> getType() {
@@ -187,6 +202,24 @@ public class ClockList<Type> implements List<Type>, RandomAccess, Cloneable, jav
 
     public ClockList<Type> clone(Function<List<Type>, List<Type>> backer) {
         return new ClockList<>(type, backer.apply(list));
+    }
+
+    @Contract(pure = true)
+    public ClockList<Type> synchronize() {
+        if (this.isSynchronized()) return this;
+        return new ClockList<>(type, Collections.synchronizedList(list));
+    }
+
+    public boolean isSynchronized() {
+        return isSynchronized(list);
+    }
+
+    public boolean isRandomAccess() {
+        return list instanceof RandomAccess;
+    }
+
+    public boolean isSerializable() {
+        return list instanceof Serializable;
     }
 
     @Override
