@@ -74,9 +74,7 @@ public class FixedArrayList<Type> extends AbstractList<Type> implements RandomAc
     public boolean remove(Object o) {
         if (o == null) return false;
         int index;
-        for (index = 0; index < array.length; index++) {
-            if (Objects.equals(o, array[index])) break;
-        }
+        for (index = 0; index < array.length; index++) if (Objects.equals(o, array[index])) break;
         if (index == array.length) return false;
         this.remove(index);
         return true;
