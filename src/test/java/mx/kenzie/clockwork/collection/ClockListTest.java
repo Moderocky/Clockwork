@@ -2,6 +2,7 @@ package mx.kenzie.clockwork.collection;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class
@@ -33,6 +34,39 @@ ClockListTest {
         assert list.equals(copy);
         assert list.list.equals(copy.list);
         assert copy.list.equals(clone.list);
+    }
+
+    @Test
+    public void synchronize() {
+        final ClockList<String> list = new ClockList<>("hello", "there");
+        assert !list.isSynchronized();
+        final ClockList<String> duplicate = list.synchronize();
+        assert duplicate != list;
+        assert duplicate.equals(list);
+        assert duplicate.isSynchronized();
+        assert !duplicate.isEmpty();
+        final ClockList<String> triplicate = duplicate.synchronize();
+        assert duplicate == triplicate;
+        assert duplicate.equals(triplicate);
+        assert triplicate.equals(list);
+        assert triplicate.isSynchronized();
+        assert !triplicate.isEmpty();
+    }
+
+    @Test
+    public void isRandomAccess() {
+        final ClockList<String> list = new ClockList<>(String.class, new ArrayList<>());
+        assert list.isRandomAccess();
+        final ClockList<String> other = new ClockList<>(String.class, new LinkedList<>());
+        assert !other.isRandomAccess();
+    }
+
+    @Test
+    public void isSerializable() {
+        final ClockList<String> list = new ClockList<>(String.class, new ArrayList<>());
+        assert list.isSerializable();
+        final ClockList<String> other = new ClockList<>(String.class, new LinkedList<>());
+        assert other.isSerializable();
     }
 
 }
