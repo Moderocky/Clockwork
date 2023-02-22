@@ -28,7 +28,7 @@ public class ClockList<Type> implements List<Type>, RandomAccess, Cloneable, jav
     @SuppressWarnings("unchecked")
     public ClockList(Class<Type> type, List<Type> list) {
         this.type = type;
-        this.list = list;
+        this.list = list instanceof ClockList<Type> clock ? clock.list : list;
         this.array = (Type[]) Array.newInstance(type, 0);
     }
 
