@@ -9,6 +9,9 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
+/**
+ * A fixed-type list wrapper with better utility support.
+ */
 public class ClockList<Type> implements List<Type>, RandomAccess, Cloneable, java.io.Serializable {
 
     private static final Class<?> sync;
