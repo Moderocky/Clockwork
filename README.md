@@ -62,7 +62,7 @@ An element can be accessed by its grid coordinates. This is the fastest access m
 N.B. we go horizontally then vertically.
 
 ```java
-table.get(20, 35);
+table.get(20,35);
 ```
 
 ```java
@@ -80,6 +80,28 @@ table.column(3).set(4, "hello");
 ```
 
 Row and column iterators reflect changes on the table itself.
+
+### Fixed Array List
+
+A list implementation with a constant backing array and a fixed capacity.
+
+#### Capacity
+
+Fixed array lists can hold a set number of elements, shown by `list.capacity()`. \
+If a list is full, it can be checked with `list.isFull()`.
+
+#### Creation
+
+Fixed array lists can either be given an array `new FixedArrayList<>(array)` which specifies its size and initial
+elements,
+or can be given both separately `new FixedArrayList<>(5, ...)`.
+
+In either case, the elements will be shuffled into a continuous order and the pointer will be marked at the end.
+This means the list does **not** support `null` elements during creation:
+it would be impossible to tell whether the user supplied an empty array to mark the size, or an array full of genuine,
+expected `null` values.
+
+The list supports `null` elements in subsequent additions.
 
 ### Clock List
 
