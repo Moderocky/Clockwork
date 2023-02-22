@@ -4,14 +4,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
-import java.util.AbstractList;
-import java.util.Arrays;
-import java.util.RandomAccess;
+import java.util.*;
 
 public class FixedArrayList<Type> extends AbstractList<Type> implements RandomAccess, Serializable, Cloneable {
 
     protected final Type[] array;
     protected int pointer;
+
+    protected FixedArrayList(Void marker, Type[] array) {
+        this.array = array;
+    }
 
     public FixedArrayList(Type[] array) {
         this.array = initialShuffle(array, array.length);
@@ -30,6 +32,10 @@ public class FixedArrayList<Type> extends AbstractList<Type> implements RandomAc
         int index = 0;
         for (Type type : dirty) if (type != null) array[index++] = type;
         return array;
+    }
+
+    public boolean isFull() {
+        return pointer >= array.length;
     }
 
     protected void shuffle() {
@@ -60,8 +66,20 @@ public class FixedArrayList<Type> extends AbstractList<Type> implements RandomAc
         final Type thing = array[index];
         this.array[index] = null;
         System.arraycopy(array, index + 1, array, index, array.length - (index + 1));
-        this.pointer--;
+        this.array[--pointer] = null;
         return thing;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        if (o == null) return false;
+        int index;
+        for (index = 0; index < array.length; index++) {
+            if (Objects.equals(o, array[index])) break;
+        }
+        if (index == array.length) return false;
+        this.remove(index);
+        return true;
     }
 
     @Override
@@ -78,15 +96,38 @@ public class FixedArrayList<Type> extends AbstractList<Type> implements RandomAc
         return pointer == 0;
     }
 
+    public int capacity() {
+        return array.length;
+    }
+
     @Override
     public FixedArrayList<Type> clone() {
-        final Type[] copy = Arrays.copyOf(array, array.length);
-        return new FixedArrayList<>(copy);
+        final FixedArrayList<Type> list = new FixedArrayList<>(null, Arrays.copyOf(array, array.length));
+        list.pointer = this.pointer;
+        return list;
     }
 
     public FixedArrayList<Type> clone(int length) {
-        final Type[] copy = Arrays.copyOf(array, length);
-        return new FixedArrayList<>(copy);
+        final FixedArrayList<Type> list = new FixedArrayList<>(null, Arrays.copyOf(array, length));
+        list.pointer = Math.min(pointer, length);
+        return list;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof List<?> list)) return false;
+        if (o instanceof FixedArrayList<?> that) {
+            if (that.capacity() == this.capacity())
+                return Arrays.equals(array, that.array);
+            else
+                return Arrays.equals(that.toArray(), this.toArray());
+        } else return super.equals(list);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(array);
     }
 
 }
