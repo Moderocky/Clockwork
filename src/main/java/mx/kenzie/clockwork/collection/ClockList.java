@@ -237,4 +237,9 @@ public class ClockList<Type> implements List<Type>, RandomAccess, Cloneable, jav
         return Objects.hash(type, list);
     }
 
+    @Override
+    public String toString() {
+        return list.toString();
+    }
+
 }
