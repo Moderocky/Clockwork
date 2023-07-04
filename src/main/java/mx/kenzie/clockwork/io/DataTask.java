@@ -3,6 +3,7 @@ package mx.kenzie.clockwork.io;
 import java.io.IOException;
 
 public abstract class DataTask implements Runnable {
+
     protected final Object lock = new Object();
     protected volatile boolean ready;
 

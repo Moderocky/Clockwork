@@ -228,6 +228,16 @@ public class ClockList<Type> implements List<Type>, RandomAccess, Cloneable, jav
         return new ClockList<>(type, Collections.synchronizedList(list));
     }
 
+    @Contract(pure = true)
+    public ClockList<Type> asNodeList() {
+        if (this.isNodeList()) return this;
+        return new ClockList<>(type, new NodeList<>(list));
+    }
+
+    public boolean isNodeList() {
+        return list instanceof NodeList<Type>;
+    }
+
     public boolean isSynchronized() {
         return isSynchronized(list);
     }

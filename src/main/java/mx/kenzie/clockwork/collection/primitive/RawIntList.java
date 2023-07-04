@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 class RawIntList implements Serializable {
+
     private int[] data;
     private int capacity;
     private int size;
@@ -71,4 +72,5 @@ class RawIntList implements Serializable {
         if (index < 0 || index >= size) throw new IndexOutOfBoundsException(
             "Index " + index + " out of bounds for size " + size);
     }
+
 }

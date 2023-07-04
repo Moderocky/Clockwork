@@ -7,6 +7,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 public class Table<Type> extends AbstractCollection<Type> implements Collection<Type>, Serializable, RandomAccess, Cloneable {
+
     protected final Class<Type> type;
     protected final Type[][] matrix;
     protected final int columns, rows;
@@ -186,6 +187,7 @@ public class Table<Type> extends AbstractCollection<Type> implements Collection<
         }
 
         private class ColumnIterator implements Iterator<Type> {
+
             private int pointer;
 
             @Override
@@ -202,6 +204,7 @@ public class Table<Type> extends AbstractCollection<Type> implements Collection<
             public void remove() {
                 matrix[pointer - 1][index] = null;
             }
+
         }
 
     }

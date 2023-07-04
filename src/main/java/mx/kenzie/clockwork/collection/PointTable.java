@@ -1,6 +1,7 @@
 package mx.kenzie.clockwork.collection;
 
 public class PointTable<Type> extends Table<Type> {
+
     protected volatile int pointer;
 
     public PointTable(Class<Type> type, int columns, int rows) {

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 class RawByteList implements Serializable {
+
     private byte[] data;
     private int capacity;
     private int size;
@@ -70,4 +71,5 @@ class RawByteList implements Serializable {
         if (index < 0 || index >= size) throw new IndexOutOfBoundsException(
             "Index " + index + " out of bounds for size " + size);
     }
+
 }

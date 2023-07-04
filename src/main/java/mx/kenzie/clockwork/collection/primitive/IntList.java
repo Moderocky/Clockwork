@@ -5,6 +5,7 @@ import java.util.AbstractList;
 import java.util.RandomAccess;
 
 public class IntList extends AbstractList<Integer> implements RandomAccess, Serializable {
+
     private final RawIntList list;
 
     public IntList() {
@@ -58,4 +59,5 @@ public class IntList extends AbstractList<Integer> implements RandomAccess, Seri
     public int[] array() {
         return list.array();
     }
+
 }

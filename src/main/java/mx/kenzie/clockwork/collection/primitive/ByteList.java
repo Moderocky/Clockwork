@@ -5,6 +5,7 @@ import java.util.AbstractList;
 import java.util.RandomAccess;
 
 public class ByteList extends AbstractList<Byte> implements RandomAccess, Serializable {
+
     private final RawByteList list;
 
     public ByteList() {

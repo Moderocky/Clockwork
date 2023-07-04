@@ -9,6 +9,7 @@ import static java.lang.Byte.MAX_VALUE;
 import static java.lang.Byte.MIN_VALUE;
 
 public class SortedByteList extends AbstractList<Byte> implements Serializable, RandomAccess {
+
     private final int[] counts = new int[MAX_VALUE - MIN_VALUE + 1];
     private int size;
 
