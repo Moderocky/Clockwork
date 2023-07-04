@@ -79,6 +79,12 @@ public class ClockList<Type> implements List<Type>, RandomAccess, Cloneable, jav
         return list.remove(random.nextInt(list.size()));
     }
 
+    public <Key> Map<Key, Type> mapBy(Function<Type, Key> keyFunction) {
+        final Map<Key, Type> map = new LinkedHashMap<>();
+        for (final Type value : list) map.put(keyFunction.apply(value), value);
+        return map;
+    }
+
     public Type getFirst() {
         return this.get(0);
     }
