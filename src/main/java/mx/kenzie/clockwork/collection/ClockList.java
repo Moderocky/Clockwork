@@ -70,6 +70,15 @@ public class ClockList<Type> implements List<Type>, RandomAccess, Cloneable, jav
         return list.get(random.nextInt(list.size()));
     }
 
+    public Type removeRandom() {
+        return this.removeRandom(ThreadLocalRandom.current());
+    }
+
+    public Type removeRandom(Random random) {
+        if (list.isEmpty()) throw new IllegalStateException("Cannot pull random element from empty list.");
+        return list.remove(random.nextInt(list.size()));
+    }
+
     public Type getFirst() {
         return this.get(0);
     }
