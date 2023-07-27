@@ -46,4 +46,26 @@ public class MagicMapTest {
         assert map.keySet().size() == 1;
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void missing() {
+        final MagicMap map = MagicMap.create("hello");
+        map.put("there", "hello");
+    }
+
+    @Test
+    public void accessor() {
+        final Thing thing = MagicMap.create(Thing.class, "hello");
+        assert thing.hello() == null;
+        assert thing.hello("there") == null;
+        assert Objects.equals(thing.hello(), "there");
+    }
+
+    public interface Thing extends MagicMap.Accessor {
+
+        String hello();
+
+        String hello(String value);
+
+    }
+
 }

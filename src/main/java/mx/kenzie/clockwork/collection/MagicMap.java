@@ -80,10 +80,11 @@ public abstract class MagicMap implements Map<String, Object> {
         method.line(RETURN.none());
     }
 
-    protected static String identifier(String... names) {
+    protected static String identifier(Class<? extends MagicMap> superType, Class<? extends Accessor> helper, String... names) {
         long result = 1;
         for (String element : names) result = 31 * result + element.hashCode();
-        return "MagicMap_" + Long.toHexString(result);
+        return "MagicMap_" + Long.toHexString(result) + "_" + Long.toHexString(
+            superType.hashCode()) + "_" + Long.toHexString(helper.hashCode());
     }
 
     public static CallMethod.Stub getVariable(String name) {
@@ -144,7 +145,8 @@ public abstract class MagicMap implements Map<String, Object> {
     @SuppressWarnings("unchecked")
     protected static <Map extends MagicMap & Accessor> Class<Map> prepare(Class<? extends MagicMap> superType, Class<? extends Accessor> helper, Loader loader, String... names) {
         try {
-            return (Class<Map>) Class.forName(location + "." + identifier(names), true, (ClassLoader) loader);
+            return (Class<Map>) Class.forName(location + "." + identifier(superType, helper, names), true,
+                (ClassLoader) loader);
         } catch (ClassNotFoundException | NoClassDefFoundError ex) {
             return compile(superType, helper, loader, names);
         }
@@ -156,10 +158,12 @@ public abstract class MagicMap implements Map<String, Object> {
 
     @SuppressWarnings("unchecked")
     protected static <Map extends MagicMap & Accessor> Class<Map> compile(Class<? extends MagicMap> superType, Class<? extends Accessor> helper, Loader loader, String... names) {
-        final String name = identifier(names);
+        final String name = identifier(superType, helper, names);
         final PreClass builder = new PreClass(location, name);
+        if (!helper.isInterface()) throw new IllegalArgumentException("Accessor class must be an interface.");
         builder.setParent(Type.of(superType));
         builder.addInterfaces(makeInterfaces(names));
+        builder.addInterfaces(Type.of(helper));
         addConstructor(builder, Type.of(superType), names);
         Arrays.sort(names, Comparator.comparingInt(String::hashCode));
         for (final String s : names) builder.add(new PreField(PUBLIC, Object.class, s));
