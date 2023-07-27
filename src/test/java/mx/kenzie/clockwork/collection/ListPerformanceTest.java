@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.LongSummaryStatistics;
 
 public class ListPerformanceTest {
+
     public static final int SIZE_BYTES = 100_000_000;
     public static final int ITERATIONS = 10;
     private static final Thread INT_LIST_THREAD, BYTE_LIST_THREAD, ARRAY_LIST_THREAD;
@@ -70,4 +71,5 @@ public class ListPerformanceTest {
     public void testLists() throws InterruptedException {
         time(INT_LIST_THREAD, BYTE_LIST_THREAD, ARRAY_LIST_THREAD);
     }
+
 }

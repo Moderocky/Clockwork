@@ -8,6 +8,7 @@ import static java.lang.Byte.MIN_VALUE;
 import static java.lang.Math.random;
 
 public class SortedByteListTest {
+
     public static final int RANGE = Byte.MAX_VALUE - MIN_VALUE;
 
     private static byte randomByte() {

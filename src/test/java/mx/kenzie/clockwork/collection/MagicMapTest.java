@@ -53,6 +53,19 @@ public class MagicMapTest {
     }
 
     @Test
+    public void parent() {
+        final MagicMap parent = MagicMap.create("hello");
+        final MagicMap map = MagicMap.createComplex(parent.getClass(), "there");
+        assert parent.keySet.size() == 1;
+        assert map.keySet.size() == 2;
+        map.put("hello", "there");
+        assert Objects.equals(map.get("hello"), "there");
+        assert parent.get("hello") == null;
+        map.put("there", "bean");
+        assert Objects.equals(map.get("there"), "bean");
+    }
+
+    @Test
     public void accessor() {
         final Thing thing = MagicMap.create(Thing.class, "hello");
         assert thing.hello() == null;
