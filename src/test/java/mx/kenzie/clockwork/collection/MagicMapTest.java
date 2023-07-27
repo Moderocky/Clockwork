@@ -66,6 +66,15 @@ public class MagicMapTest {
     }
 
     @Test
+    public void otherParent() {
+        final MagicMap map = MagicMap.createComplex(MyMap.class, "hello");
+        assert map.keySet.size() == 1;
+        map.put("hello", "there");
+        assert Objects.equals(map.get("hello"), "there");
+        assert Objects.equals(map.get("foo"), "bar");
+    }
+
+    @Test
     public void accessor() {
         final Thing thing = MagicMap.create(Thing.class, "hello");
         assert thing.hello() == null;
@@ -78,6 +87,15 @@ public class MagicMapTest {
         String hello();
 
         String hello(String value);
+
+    }
+
+    public static abstract class MyMap extends MagicMap {
+
+        @Override
+        public Object get(String key) {
+            return "bar";
+        }
 
     }
 
