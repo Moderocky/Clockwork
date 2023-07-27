@@ -19,7 +19,7 @@ Elements are stored according to `(x, y)` coordinates in columns and rows.
 A table can be created with a type, width and length.
 
 ```java
-final Table<String> table = new Table<>(String.class, 3, 2);
+final Table<String> table=new Table<>(String.class,3,2);
 ```
 
 This will create a `3` by `2` table. All entries will start as `null`.
@@ -32,7 +32,7 @@ This will create a `3` by `2` table. All entries will start as `null`.
 You can also create a table with an initial array of elements, which are entered by index number.
 
 ```java
-final Table<String> table = new Table<>(3, 2, "A", "B", "C");
+final Table<String> table=new Table<>(3,2,"A","B","C");
 ```
 
 This will create a `3` by `2` table and enter the initial data.
@@ -51,7 +51,7 @@ There are **three** ways to directly access data from a table.
 An element can be accessed via its index in the entire table. This indexing reads vertically, one column at a time.
 
 ```java
-table.set(2, "hello");
+table.set(2,"hello");
 ```
 
 ```java
@@ -66,7 +66,7 @@ table.get(20,35);
 ```
 
 ```java
-table.set(22, 41, "hello");
+table.set(22,41,"hello");
 ```
 
 A row or column can be accessed as a unit, and then individual elements can be obtained by index in it.
@@ -76,7 +76,7 @@ table.row(0).get(1);
 ```
 
 ```java
-table.column(3).set(4, "hello");
+table.column(3).set(4,"hello");
 ```
 
 Row and column iterators reflect changes on the table itself.
@@ -164,3 +164,53 @@ An I/O queue uses a single task thread. This makes sure the same data store will
 time. \
 If you are accessing multiple data stores, it is advisable to create separate queues for each, since there is no risk of
 concurrent modification between them.
+
+### Magic Map
+
+**Note:** this requires Foundation 2 as a dependency.
+
+An exceedingly fast `String -> Object` map. \
+This implementation trades map creation time and flexibility for the fastest possible set/get access.
+
+A magic map has a fixed set of keys, defined when the map is created during runtime.
+A new map class is created with space allocated for each key.
+
+> #### Example
+>
+> A magic map with the keys `foo` and `bar` would create something equivalent to:
+> ```java 
+> class ? extends MagicMap {
+>     Object foo, bar;
+> }
+> ```
+> The fields can be accessed directly by name if you are interacting with this from another meta-compiler task.
+
+In order to provide the required map behaviour, the `get` and `put` methods implement a fast lookup switch to access the
+field.
+
+#### Access Helpers
+
+An access helper interface can be provided for even faster access to an element, bypassing the lookup table.
+
+> #### Example
+> ```java 
+> import mx.kenzie.clockwork.collection.MagicMap;
+>
+> interface MyMap extends MagicMap.Accessor {
+>
+>     Object foo();
+>
+>     String bar();
+>
+> }
+> ```
+> When a map is created with this accessor, the `foo` and `bar` methods will be implemented to get the fields, and cast
+> their values where appropriate.
+>
+> A setter can be made with an `Object name(Object value)` method.
+
+#### Extending a Map
+
+One magic map can be made to extend another, by providing it as the super-type.
+
+It will inherit all the keys (and extra behaviour) of its parent type.
