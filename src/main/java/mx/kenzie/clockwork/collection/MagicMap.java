@@ -122,19 +122,26 @@ public abstract class MagicMap implements Map<String, Object> {
             if (!java.lang.reflect.Modifier.isPublic(method.getModifiers())) continue;
             if (!java.lang.reflect.Modifier.isAbstract(method.getModifiers())) continue;
             final Class<?> result = method.getReturnType();
-            if (result == void.class || result.isPrimitive()) continue;
             if (!set.contains(method.getName())) continue;
             final AccessField.Stub stub = FIELD.of(builder, method.getName(), Object.class);
             if (method.getParameterCount() == 1) {
+                final Class<?> input = method.getParameterTypes()[0];
+                if (input.isPrimitive()) throw new IllegalStateException(
+                    "Setter handle '" + method.getName() + "' has illegal parameter type.");
                 final PreMethod setter = builder.add(
-                    new PreMethod(PUBLIC, result, method.getName(), method.getParameterTypes()[0]));
-                setter.line(visitor -> {
+                    new PreMethod(PUBLIC, result, method.getName(), input));
+                if (result == void.class) {
+                    setter.line(stub.set(THIS, LOAD_VAR.object(1)));
+                    setter.line(RETURN.none());
+                } else setter.line(visitor -> {
                     stub.get(THIS).write(visitor);
                     stub.set(THIS, LOAD_VAR.object(1)).write(visitor);
                     if (result != Object.class) visitor.visitTypeInsn(Opcodes.CHECKCAST, Type.internalName(result));
                     visitor.visitInsn(Opcodes.ARETURN);
                 });
             } else if (method.getParameterCount() == 0) {
+                if (result == void.class || result.isPrimitive()) throw new IllegalStateException(
+                    "Getter handle '" + method.getName() + "' has illegal return type.");
                 final PreMethod getter = builder.add(new PreMethod(PUBLIC, result, method.getName()));
                 if (result != Object.class) getter.line(RETURN.object(CAST.object(stub.get(THIS), result)));
                 else getter.line(RETURN.object(stub.get(THIS)));
