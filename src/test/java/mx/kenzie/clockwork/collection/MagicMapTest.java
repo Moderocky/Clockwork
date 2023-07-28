@@ -76,10 +76,12 @@ public class MagicMapTest {
 
     @Test
     public void accessor() {
-        final Thing thing = MagicMap.create(Thing.class, "hello");
+        final Thing thing = MagicMap.create(Thing.class, "hello", "foo");
         assert thing.hello() == null;
         assert thing.hello("there") == null;
         assert Objects.equals(thing.hello(), "there");
+        thing.foo(10);
+        assert thing.get("foo").equals(10);
     }
 
     public interface Thing extends MagicMap.Accessor {
@@ -87,6 +89,8 @@ public class MagicMapTest {
         String hello();
 
         String hello(String value);
+
+        void foo(Object value);
 
     }
 
