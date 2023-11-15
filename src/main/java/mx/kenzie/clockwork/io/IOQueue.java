@@ -9,7 +9,8 @@ import java.util.concurrent.locks.LockSupport;
 
 public class IOQueue extends ConcurrentLinkedQueue<DataTask> {
     
-    private final ExecutorService service = Executors.newSingleThreadExecutor();
+    protected final ExecutorService service;
+    protected final Object lock = new Object();
     protected volatile boolean closing;
     
     public IOQueue() {
@@ -17,13 +18,18 @@ public class IOQueue extends ConcurrentLinkedQueue<DataTask> {
     }
     
     public IOQueue(int wait) {
+        this(Executors.newSingleThreadExecutor(), wait);
+    }
+    
+    protected IOQueue(ExecutorService service, int wait) {
+        this.service = service;
         this.service.submit(() -> {
             while (!closing || !this.isEmpty()) {
                 try {
                     final DataTask task = this.poll();
                     if (task == null) {
                         if (closing) break;
-                        sleep(wait);
+                        this.pause(wait);
                         continue;
                     }
                     task.run();
@@ -40,12 +46,27 @@ public class IOQueue extends ConcurrentLinkedQueue<DataTask> {
         LockSupport.parkNanos(millis * 1000000L);
     }
     
-    public synchronized DataTask queue(DataTask task) {
-        if (!this.contains(task)) this.add(task);
+    private void pause(long millis) {
+        try {
+            synchronized (lock) {
+                this.lock.wait(millis);
+            }
+        } catch (InterruptedException ignored) {
+        }
+    }
+    
+    public DataTask queue(DataTask task) {
+        synchronized (lock) {
+            if (!this.contains(task)) this.add(task);
+            this.lock.notifyAll();
+        }
         return task;
     }
     
     public void shutdown(long millis) {
+        synchronized (lock) {
+            this.lock.notifyAll();
+        }
         final List<Runnable> tasks = service.shutdownNow();
         try {
             if (!tasks.isEmpty() && !service.awaitTermination(millis, TimeUnit.MILLISECONDS))
