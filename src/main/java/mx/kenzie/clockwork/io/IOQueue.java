@@ -6,12 +6,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
+import java.util.function.Consumer;
 
 public class IOQueue extends ConcurrentLinkedQueue<DataTask> {
     
     protected final ExecutorService service;
     protected final Object lock = new Object();
     protected volatile boolean closing;
+    protected Consumer<Throwable> errorHandler = Throwable::printStackTrace;
     
     public IOQueue() {
         this(50);
@@ -34,9 +36,11 @@ public class IOQueue extends ConcurrentLinkedQueue<DataTask> {
                     }
                     task.run();
                     task.finish();
-                } catch (Throwable ex) {
+                } catch (Error ex) {
                     System.err.println("Error in I/O process:");
                     ex.printStackTrace(System.err);
+                } catch (Exception ex) {
+                    this.errorHandler.accept(ex);
                 }
             }
         });
