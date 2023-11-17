@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.Iterator;
 
 public class ArrayIteratorTest {
-
+    
     @Test
     public void dynamic() {
         final String[] strings = {"hello", "there"};
@@ -16,7 +16,7 @@ public class ArrayIteratorTest {
         assert iterator.next().equals("kenobi");
         assert !iterator.hasNext();
     }
-
+    
     @Test
     public void next() {
         final String[] strings = {"hello", "there"};
@@ -26,7 +26,7 @@ public class ArrayIteratorTest {
         assert iterator.next().equals("there");
         assert !iterator.hasNext();
     }
-
+    
     @Test
     public void remove() {
         final String[] strings = {"hello", "there"};
@@ -39,7 +39,7 @@ public class ArrayIteratorTest {
         assert strings[0] == null;
         assert strings[1] == null;
     }
-
+    
     @Test
     public void hasNext() {
         final String[] strings = {"hello", "there"};
@@ -50,5 +50,5 @@ public class ArrayIteratorTest {
         assert iterator.next().equals("there");
         assert !iterator.hasNext();
     }
-
+    
 }

@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 public class
 ClockListTest {
-
+    
     @Test
     public void basic() {
         final ClockList<String> list = new ClockList<>();
@@ -16,7 +16,7 @@ ClockListTest {
         assert list.getType() == String.class;
         assert list.getRandom().equals("hello");
     }
-
+    
     @Test
     public void testClone() {
         final ClockList<String> list = new ClockList<>();
@@ -35,7 +35,7 @@ ClockListTest {
         assert list.list.equals(copy.list);
         assert copy.list.equals(clone.list);
     }
-
+    
     @Test
     public void synchronize() {
         final ClockList<String> list = new ClockList<>("hello", "there");
@@ -52,7 +52,7 @@ ClockListTest {
         assert triplicate.isSynchronized();
         assert !triplicate.isEmpty();
     }
-
+    
     @Test
     public void isRandomAccess() {
         final ClockList<String> list = new ClockList<>(String.class, new ArrayList<>());
@@ -60,7 +60,7 @@ ClockListTest {
         final ClockList<String> other = new ClockList<>(String.class, new LinkedList<>());
         assert !other.isRandomAccess();
     }
-
+    
     @Test
     public void isSerializable() {
         final ClockList<String> list = new ClockList<>(String.class, new ArrayList<>());
@@ -68,5 +68,5 @@ ClockListTest {
         final ClockList<String> other = new ClockList<>(String.class, new LinkedList<>());
         assert other.isSerializable();
     }
-
+    
 }

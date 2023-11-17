@@ -5,14 +5,14 @@ import org.junit.Test;
 import java.util.Arrays;
 
 public class TableTest {
-
+    
     @Test
     public void constructor() {
         final Table<String> table = new Table<>(String.class, 5, 3);
         assert table.matrix.length == 3;
         assert table.matrix[0].length == 5;
     }
-
+    
     @Test
     public void toArray() {
         final Table<String> table = new Table<>(String.class, 3, 2);
@@ -22,7 +22,7 @@ public class TableTest {
         assert array.length == 6;
         assert array[0].equals("hello");
     }
-
+    
     @Test
     public void get() {
         final Table<String> table = new Table<>(String.class, 3, 2);
@@ -35,7 +35,7 @@ public class TableTest {
         assert table.get(1, 0).equals("general");
         assert table.get(1, 1).equals("kenobi");
     }
-
+    
     @Test
     public void iterator() {
         final Table<String> table = new Table<>(String.class, 1, 2);
@@ -51,7 +51,7 @@ public class TableTest {
         assert count == table.size();
         assert count == 2;
     }
-
+    
     @Test
     public void size() {
         final Table<String> table = new Table<>(String.class, 2, 2);
@@ -60,7 +60,7 @@ public class TableTest {
         table.set(1, "there");
         assert table.size() == 4;
     }
-
+    
     @Test
     public void set() {
         final Table<String> table = new Table<>(String.class, 2, 2);
@@ -74,7 +74,7 @@ public class TableTest {
         assert array[2].equals("general");
         assert array[3].equals("kenobi");
     }
-
+    
     @Test
     public void row() {
         final Table<String> table = new Table<>(3, 2, "hello", "there", "general", "kenobi");
@@ -91,7 +91,7 @@ public class TableTest {
         assert Arrays.toString(row.toArray()).equals("[hello, general, null]");
         assert String.join(" ", table.row(1)).equals("there kenobi null");
     }
-
+    
     @Test
     public void column() {
         final Table<String> table = new Table<>(3, 2, "hello", "there", "general", "kenobi");
@@ -109,5 +109,5 @@ public class TableTest {
         assert String.join(" ", table.column(1)).equals("general kenobi");
         assert String.join(" ", table.column(2)).equals("null null");
     }
-
+    
 }

@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.LongSummaryStatistics;
 
 public class ListPerformanceTest {
-
+    
     public static final int SIZE_BYTES = 100_000_000;
     public static final int ITERATIONS = 10;
     private static final Thread INT_LIST_THREAD, BYTE_LIST_THREAD, ARRAY_LIST_THREAD;
-
+    
     static {
         INT_LIST_THREAD = new Thread(() -> {
             final IntList list = new IntList();
@@ -21,28 +21,28 @@ public class ListPerformanceTest {
                 list.add(i);
             }
         });
-
+        
         INT_LIST_THREAD.setName("IntList");
-
+        
         BYTE_LIST_THREAD = new Thread(() -> {
             final ByteList list = new ByteList();
             for (int i = 0; i < SIZE_BYTES; i++) {
                 list.add((byte) i);
             }
         });
-
+        
         BYTE_LIST_THREAD.setName("ByteList");
-
+        
         ARRAY_LIST_THREAD = new Thread(() -> {
             final java.util.ArrayList<Byte> list = new java.util.ArrayList<>();
             for (int i = 0; i < SIZE_BYTES; i++) {
                 list.add((byte) i);
             }
         });
-
+        
         ARRAY_LIST_THREAD.setName("ArrayList");
     }
-
+    
     private static void time(Thread... threads) throws InterruptedException {
         final List<Thread> groups = new ArrayList<>(threads.length);
         for (Thread thread : threads) {
@@ -51,7 +51,7 @@ public class ListPerformanceTest {
                 for (int i = 0; i < ITERATIONS; i++) {
                     final long start = System.currentTimeMillis();
                     thread.run();
-
+                    
                     final long end = System.currentTimeMillis();
                     stats.accept(end - start);
                 }
@@ -61,15 +61,15 @@ public class ListPerformanceTest {
             group.start();
             groups.add(group);
         }
-
+        
         for (Thread group : groups) {
             group.join();
         }
     }
-
+    
     @Test
     public void testLists() throws InterruptedException {
         time(INT_LIST_THREAD, BYTE_LIST_THREAD, ARRAY_LIST_THREAD);
     }
-
+    
 }

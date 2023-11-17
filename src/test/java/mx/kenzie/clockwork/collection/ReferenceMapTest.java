@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ReferenceMapTest {
-
+    
     @Test
     public void constructor() {
         final Map<String, String> map = new ReferenceMap<>(new HashMap<>(), SoftReference::new);
@@ -19,5 +19,5 @@ public class ReferenceMapTest {
         assert map.get("hello").equals("there");
         assert map.getOrDefault("general", "kenobi").equals("kenobi");
     }
-
+    
 }

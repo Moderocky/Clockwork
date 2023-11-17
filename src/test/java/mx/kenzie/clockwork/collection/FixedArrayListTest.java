@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.Objects;
 
 public class FixedArrayListTest {
-
+    
     @Test
     public void add() {
         final FixedArrayList<String> list = new FixedArrayList<>(2);
@@ -18,7 +18,7 @@ public class FixedArrayListTest {
         assert list.size() == 2;
         assert Objects.equals(list.get(1), "there");
     }
-
+    
     @Test
     public void toArray() {
         final FixedArrayList<String> list = new FixedArrayList<>(2);
@@ -35,7 +35,7 @@ public class FixedArrayListTest {
         assert Objects.equals(strings[0], "hello");
         assert Objects.equals(strings[1], "there");
     }
-
+    
     @Test
     public void remove() {
         final FixedArrayList<String> list = new FixedArrayList<>(2);
@@ -72,7 +72,7 @@ public class FixedArrayListTest {
         list.add("there");
         assert Objects.equals(list.get(1), "there");
     }
-
+    
     @Test
     public void get() {
         final FixedArrayList<String> list = new FixedArrayList<>(4, "hello", "there", "general", "kenobi");
@@ -84,7 +84,7 @@ public class FixedArrayListTest {
         assert Objects.equals(list.get(2), "general");
         assert Objects.equals(list.get(3), "kenobi");
     }
-
+    
     @Test
     public void size() {
         final FixedArrayList<String> list = new FixedArrayList<>(2);
@@ -105,7 +105,7 @@ public class FixedArrayListTest {
         assert list.size() == 0;
         assert list.isEmpty();
     }
-
+    
     @Test
     public void isEmpty() {
         final FixedArrayList<String> list = new FixedArrayList<>(2);
@@ -126,7 +126,7 @@ public class FixedArrayListTest {
         assert list.size() == 0;
         assert list.isEmpty();
     }
-
+    
     @Test
     public void testClone() {
         final FixedArrayList<String> list = new FixedArrayList<>(2, "hello", "there");
@@ -137,7 +137,7 @@ public class FixedArrayListTest {
         assert list.equals(duplicate);
         assert duplicate.equals(list);
     }
-
+    
     @Test
     public void testClone1() {
         final FixedArrayList<String> list = new FixedArrayList<>(2, "hello", "there");
@@ -149,5 +149,5 @@ public class FixedArrayListTest {
         assert duplicate.equals(list);
         assert duplicate.capacity() != list.capacity();
     }
-
+    
 }

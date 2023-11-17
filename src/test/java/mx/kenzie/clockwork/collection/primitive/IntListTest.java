@@ -3,7 +3,7 @@ package mx.kenzie.clockwork.collection.primitive;
 import org.junit.Test;
 
 public class IntListTest {
-
+    
     @Test
     public void basic() {
         final IntList list = new IntList();
@@ -28,5 +28,5 @@ public class IntListTest {
         assert list.get(1) == 0;
         assert list.get(2) == 1;
     }
-
+    
 }

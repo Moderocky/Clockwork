@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class MagicMapTest {
-
+    
     @Test
     public void simple() {
         final MagicMap map = MagicMap.create("hello");
@@ -14,7 +14,7 @@ public class MagicMapTest {
         map.put("hello", "there");
         assert Objects.equals(map.get("hello"), "there");
     }
-
+    
     @Test
     public void reCreate() {
         final MagicMap map = MagicMap.create("hello");
@@ -26,7 +26,7 @@ public class MagicMapTest {
         other.put("hello", "there");
         assert Objects.equals(other.get("hello"), "there");
     }
-
+    
     @Test
     public void forMap() {
         final Map<String, Object> original = Map.of("hello", "there");
@@ -37,7 +37,7 @@ public class MagicMapTest {
         assert Objects.equals(map.get("hello"), "world");
         assert Objects.equals(original.get("hello"), "there");
     }
-
+    
     @Test
     public void keySet() {
         final Map<String, Object> original = Map.of("hello", "there");
@@ -45,13 +45,13 @@ public class MagicMapTest {
         assert !map.keySet().isEmpty();
         assert map.keySet().size() == 1;
     }
-
+    
     @Test(expected = IllegalArgumentException.class)
     public void missing() {
         final MagicMap map = MagicMap.create("hello");
         map.put("there", "hello");
     }
-
+    
     @Test
     public void parent() {
         final MagicMap parent = MagicMap.create("hello");
@@ -64,7 +64,7 @@ public class MagicMapTest {
         map.put("there", "bean");
         assert Objects.equals(map.get("there"), "bean");
     }
-
+    
     @Test
     public void otherParent() {
         final MagicMap map = MagicMap.createComplex(MyMap.class, "hello");
@@ -73,7 +73,7 @@ public class MagicMapTest {
         assert Objects.equals(map.get("hello"), "there");
         assert Objects.equals(map.get("foo"), "bar");
     }
-
+    
     @Test
     public void accessor() {
         final Thing thing = MagicMap.create(Thing.class, "hello", "foo");
@@ -83,24 +83,24 @@ public class MagicMapTest {
         thing.foo(10);
         assert thing.get("foo").equals(10);
     }
-
+    
     public interface Thing extends MagicMap.Accessor {
-
+        
         String hello();
-
+        
         String hello(String value);
-
+        
         void foo(Object value);
-
+        
     }
-
+    
     public static abstract class MyMap extends MagicMap {
-
+        
         @Override
         public Object get(String key) {
             return "bar";
         }
-
+        
     }
-
+    
 }

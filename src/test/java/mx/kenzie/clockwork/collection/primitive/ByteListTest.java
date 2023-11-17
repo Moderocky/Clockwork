@@ -3,7 +3,7 @@ package mx.kenzie.clockwork.collection.primitive;
 import org.junit.Test;
 
 public class ByteListTest {
-
+    
     @Test
     public void basic() {
         final ByteList list = new ByteList();
@@ -28,5 +28,5 @@ public class ByteListTest {
         assert list.get(1) == 0;
         assert list.get(2) == 1;
     }
-
+    
 }

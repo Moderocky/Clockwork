@@ -4,22 +4,22 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 class RawByteList implements Serializable {
-
+    
     private byte[] data;
     private int capacity;
     private int size;
-
+    
     RawByteList(final int capacity) {
         this.capacity = capacity;
         this.data = new byte[capacity];
     }
-
+    
     Byte set(final int index, final byte value) {
         final Byte old = data[index];
         this.data[index] = value;
         return old;
     }
-
+    
     void add(final int index, final byte value) {
         if (index == size) {
             this.add(value);
@@ -33,7 +33,7 @@ class RawByteList implements Serializable {
         this.capacity++;
         this.size++;
     }
-
+    
     void add(final byte value) {
         if (capacity == size) {
             final byte[] data = new byte[capacity * 2];
@@ -43,11 +43,11 @@ class RawByteList implements Serializable {
         }
         this.data[size++] = value;
     }
-
+    
     Byte get(final int index) {
         return data[index];
     }
-
+    
     Byte remove(final int index) {
         final Byte old = data[index];
         final byte[] data = new byte[capacity - 1];
@@ -58,18 +58,18 @@ class RawByteList implements Serializable {
         this.size--;
         return old;
     }
-
+    
     int size() {
         return size;
     }
-
+    
     byte[] array() {
         return Arrays.copyOfRange(data, 0, size);
     }
-
+    
     void checkBounds(final int index) {
         if (index < 0 || index >= size) throw new IndexOutOfBoundsException(
             "Index " + index + " out of bounds for size " + size);
     }
-
+    
 }
