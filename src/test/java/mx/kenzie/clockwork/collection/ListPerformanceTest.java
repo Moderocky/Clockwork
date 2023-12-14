@@ -2,7 +2,6 @@ package mx.kenzie.clockwork.collection;
 
 import mx.kenzie.clockwork.collection.primitive.ByteList;
 import mx.kenzie.clockwork.collection.primitive.IntList;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +66,10 @@ public class ListPerformanceTest {
         }
     }
     
-    @Test
+    public static void main(String[] args) throws Throwable {
+        new ListPerformanceTest().testLists();
+    }
+    
     public void testLists() throws InterruptedException {
         time(INT_LIST_THREAD, BYTE_LIST_THREAD, ARRAY_LIST_THREAD);
     }
